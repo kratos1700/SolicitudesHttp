@@ -5,6 +5,10 @@ import android.os.Bundle
 import android.os.StrictMode
 import android.util.Log
 import android.widget.Toast
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.solicituthttp.Network
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.IOException
@@ -39,13 +43,48 @@ class MainActivity : AppCompatActivity(), CompletadoListener {
             }
 
         }
+        // solicitud con libreria Volley
+        btVolley.setOnClickListener(){
 
+            if (Network.hayRed(this)){
+                solicitudHTTPVolley("https://www.google.es")
+
+            }else{
+                Toast.makeText(this,"No hi ha conexio!!", Toast.LENGTH_LONG).show()
+            }
+
+        }
 
     }
+
 
     override fun descargaCompleta(resultado: String) {
         Log.d("DescargaCompleta",resultado)
     }
+
+    // Metode per Volley
+    // funciona com una cola
+    private  fun solicitudHTTPVolley(url:String){
+        val cola = Volley.newRequestQueue(this)
+        val solicitud = StringRequest(Request.Method.GET, url, Response.Listener <String>{
+            response ->
+            try {
+                Log.d("SolicitudHTTPVolley", response)
+            }catch (e:Exception){
+
+            }
+        }, Response.ErrorListener {  })
+
+        cola.add(solicitud)
+    }
+
+
+
+
+
+
+
+
     /*     // :String vol dir que retorna un string
      // creem una Url per obrir una conexio
 
