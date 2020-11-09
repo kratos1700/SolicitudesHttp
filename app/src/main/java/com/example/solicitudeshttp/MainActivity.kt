@@ -11,6 +11,8 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.solicituthttp.Network
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.Call
+import okhttp3.OkHttpClient
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -55,6 +57,18 @@ class MainActivity : AppCompatActivity(), CompletadoListener {
 
         }
 
+        // Solicitud con libreria OKHTTP
+     btOKHTTP.setOnClickListener(){
+     if (Network.hayRed(this)){
+         SolicitudHTTPOKHTTP("https://www.google.es")
+
+     }else{
+         Toast.makeText(this,"No hi ha conexio!!", Toast.LENGTH_LONG).show()
+     }
+ }
+
+
+
     }
 
 
@@ -79,10 +93,33 @@ class MainActivity : AppCompatActivity(), CompletadoListener {
     }
 
 
+//Metode per OKHTTP
+    //tambe funciona amb una cola, usa el fil principal
+ private  fun SolicitudHTTPOKHTTP(url:String){
+     val cliente = OkHttpClient()
+     val solicitud= okhttp3.Request.Builder().url(url).build()
+     cliente.newCall(solicitud).enqueue(object :okhttp3.Callback{
+         override fun onFailure(call: Call?, e: IOException){
+             //implementa el error
+         }
+
+         override fun onResponse(call: Call?, response: okhttp3.Response) {
+            val resultado = response.body().string()
+             // fa que el codi es pasi al thread principal
+             this@MainActivity.runOnUiThread(){
+                 try {
+                     Log.d("solicitudHTTPOKHTTP", resultado)
+                 }catch (e:Exception){
+
+                 }
+             }
+         }
+     })
 
 
 
-
+ }
+}
 
 
     /*     // :String vol dir que retorna un string
@@ -110,4 +147,3 @@ class MainActivity : AppCompatActivity(), CompletadoListener {
              }
 
      }*/
-}
