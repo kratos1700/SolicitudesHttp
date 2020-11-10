@@ -1,5 +1,6 @@
 package com.example.solicitudeshttp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.StrictMode
@@ -9,6 +10,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.solicitudeshttp.JSON.ActivityJSON
 import com.example.solicituthttp.Network
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.Call
@@ -67,6 +69,12 @@ class MainActivity : AppCompatActivity(), CompletadoListener {
      }
  }
 
+
+        // boto per anar a al activity de probes JSON
+        btJson.setOnClickListener(){
+            val intent = Intent(this,ActivityJSON::class.java)
+            startActivity(intent)
+        }
 
 
     }
