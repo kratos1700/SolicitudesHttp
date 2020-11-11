@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.example.solicitudeshttp.R
+import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_j_s_o_n.*
 import org.json.JSONObject
 
 class ActivityJSON : AppCompatActivity() {
@@ -44,5 +46,32 @@ class ActivityJSON : AppCompatActivity() {
              //Log.d("PERSONA", persona.nombre)
         }
         Log.d("onCreate",listaPersonas?.count().toString())
+
+
+        //********************** LIBRERIA GSON *********************
+        btGson.setOnClickListener(){
+            var respuesta = "{ \"personas\" : [ " +
+                    "{" +
+                    " \"nombre\" : \"Miquel\" ," +
+                    " \"pais\" : \"Espanya\" ," +
+                    " \"estado\" : \"soltero\" ," +
+                    " \"experiencia\" : 5}," +
+
+                    "{" +
+                    " \"nombre\" : \"Jordi\" ," +
+                    " \"pais\" : \"España\" ," +
+                    " \"estado\" : \"casado\" ," +
+                    " \"experiencia\" : 16}" +
+                    " ]" +
+                    " }"
+
+            val gson = Gson() // creem el objecte Gson
+            val res = gson.fromJson(respuesta,Personas::class.java) //li pasem la variable de dades i la clase a mapejar
+            Log.d("GSON",res.personas?.count().toString())
+
+
+        }
+
+
     }
 }
